@@ -6,8 +6,8 @@ on:
     branches:
       - main
       - develop
-      - 'release/**'
-      - 'hotfix/**'
+      - 'release/*'
+      - 'hotfix/*'
     paths:
       - src/**
       - tests/**
