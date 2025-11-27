@@ -272,7 +272,9 @@ python src/python_service_template/app.py --reload
 
 ## CI/CD
 
-Continuous Integration runs on every PR and push to `main`. See `.github/workflows/ci.yml` for details. The workflow checks lint, type checks, tests, and builds the Docker image.
+Continuous Integration runs on every PR and push to `main`, `develop`, `release/*`, and `hotfix/*` branches following the [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. See `.github/workflows/ci.yaml` for details. The workflow checks lint, type checks, tests, and builds the Docker image.
+
+For more information on the branching strategy, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
@@ -284,4 +286,4 @@ This project is licensed under the [Apache 2.0 License](LICENSE).
 
 ## Contributing
 
-Contributions are welcome! Please open issues or pull requests.
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details on our Git Flow branching strategy, development setup, and pull request process.

@@ -2,9 +2,22 @@ name: CI
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/**'
+      - 'hotfix/**'
+    paths:
+      - src/**
+      - tests/**
+      - pyproject.toml
+      - uv.lock
+      - .github/workflows/ci.yaml
   pull_request:
     branches:
       - main
+      - develop
     types:
       - synchronize
       - opened
