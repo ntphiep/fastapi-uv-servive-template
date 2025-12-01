@@ -46,7 +46,7 @@ LABEL org.opencontainers.image.title="python-service-template" \
       org.opencontainers.image.description="Production-ready FastAPI service template" \
       org.opencontainers.image.vendor="ntphiep" \
       org.opencontainers.image.source="https://github.com/ntphiep/fastapi-uv-servive-template" \
-      org.opencontainers.image.email="ntphiep@example.com"
+      org.opencontainers.image.email="ng.hiep0822@gmail.com"
 
 # Security and optimization: Minimal system packages
 RUN set -ex && \
