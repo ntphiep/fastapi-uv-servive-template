@@ -71,9 +71,9 @@ async def global_exception_handler(_request: Request, _exc: Exception) -> JSONRe
 if __name__ == "__main__":
     import argparse
     import asyncio
+    import sys
 
     import uvicorn
-    import uvloop
 
     parser = argparse.ArgumentParser(description="Run the FastAPI service.")
     parser.add_argument(
@@ -83,8 +83,11 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    # Configure uvloop as the event loop policy
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    # Configure uvloop as the event loop policy on non-Windows platforms
+    if sys.platform != "win32":
+        import uvloop
+
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     workers = None if args.reload else _app_settings.workers
     uvicorn.run(

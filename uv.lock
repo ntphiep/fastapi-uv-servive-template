@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.13"
 
 [[package]]
@@ -728,7 +728,7 @@ dependencies = [
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "structlog" },
-    { name = "uvloop" },
+    { name = "uvloop", marker = "sys_platform != 'win32'" },
 ]
 
 [package.dev-dependencies]
@@ -750,7 +750,7 @@ requires-dist = [
     { name = "pydantic", specifier = "~=2.11.0" },
     { name = "pydantic-settings", specifier = "~=2.9.1" },
     { name = "structlog", specifier = "~=25.3.0" },
-    { name = "uvloop", specifier = "~=0.21.0" },
+    { name = "uvloop", marker = "sys_platform != 'win32'", specifier = "~=0.21.0" },
 ]
 
 [package.metadata.requires-dev]
