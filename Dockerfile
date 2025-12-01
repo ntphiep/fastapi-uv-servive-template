@@ -3,7 +3,7 @@
 # Build arguments for flexibility in base image selection
 ARG PYTHON_VERSION=3.13
 ARG DEBIAN_VERSION=bookworm
-ARG UV_VERSION=0.5.11
+ARG UV_VERSION=0.9.2
 
 # Builder stage - uses uv for faster, more reliable dependency installation
 FROM ghcr.io/astral-sh/uv:${UV_VERSION}-python${PYTHON_VERSION}-${DEBIAN_VERSION}-slim AS builder
@@ -45,7 +45,8 @@ FROM python:${PYTHON_VERSION}-slim-${DEBIAN_VERSION} AS runtime
 LABEL org.opencontainers.image.title="python-service-template" \
       org.opencontainers.image.description="Production-ready FastAPI service template" \
       org.opencontainers.image.vendor="ntphiep" \
-      org.opencontainers.image.source="https://github.com/ntphiep/fastapi-uv-servive-template"
+      org.opencontainers.image.source="https://github.com/ntphiep/fastapi-uv-servive-template" \
+      org.opencontainers.image.email="ntphiep@example.com"
 
 # Security and optimization: Minimal system packages
 RUN set -ex && \
