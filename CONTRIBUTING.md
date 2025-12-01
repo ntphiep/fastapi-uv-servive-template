@@ -17,22 +17,6 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 This project follows the [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model to ensure a consistent and organized development workflow.
 
-### Branch Overview
-
-```
-main ─────────────────────────────────────────────────────►
-         │                    ▲                    ▲
-         │                    │                    │
-         ▼                    │                    │
-develop ──────────────────────┼────────────────────┼──────►
-    │         ▲         │     │         ▲         │
-    │         │         │     │         │         │
-    ▼         │         ▼     │         │         ▼
-feature/*     │     release/* │     hotfix/*   feature/*
-              │               │         │
-              └───────────────┴─────────┘
-```
-
 ---
 
 ## Branch Types

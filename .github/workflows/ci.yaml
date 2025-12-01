@@ -16,7 +16,6 @@ on:
       - .github/workflows/ci.yaml
   pull_request:
     branches:
-      - main
       - develop
     types:
       - synchronize
