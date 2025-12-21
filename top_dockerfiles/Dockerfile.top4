@@ -1,0 +1,75 @@
+# syntax=docker/dockerfile:1.19
+
+FROM python:3.13-alpine3.22 AS deps
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-compile uv==0.9.2
+
+WORKDIR /app
+
+COPY pyproject.toml uv.lock ./
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-install-project \
+    && uv pip install starlette==0.50.0
+
+FROM python:3.13-alpine3.22 AS final
+
+RUN pip install -U pip
+
+RUN --mount=type=cache,target=/var/cache/apk \
+    apk add --no-cache \
+    curl=8.14.1-r2 \
+    tini=0.19.0-r3
+
+ARG VERSION="0.1.0"
+ARG BUILD_DATE="2025-11-10T00:00:00Z"
+ARG REVISION="unknown"
+ARG GIT_COMMIT_SHA="unknown"
+
+LABEL org.opencontainers.image.title="python-service-template" \
+      org.opencontainers.image.description="A batteries-included template for building robust, production-ready Python backend services with FastAPI" \
+      org.opencontainers.image.authors="Khiem Doan" \
+      org.opencontainers.image.version=$VERSION \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.revision=$REVISION \
+      org.opencontainers.image.source="https://github.com/khiemdoan/" \
+      org.opencontainers.image.licenses="MIT"
+
+ENV USER=nonroot \
+    GROUP=nonroot \
+    UID=14406 \
+    GID=14406
+
+RUN addgroup -g "$GID" "$GROUP" \
+    && adduser -D -u "$UID" -G "$GROUP" "$USER"
+
+USER $USER
+
+WORKDIR /app
+
+COPY --chown=$USER:$GROUP src/ src/
+
+COPY --from=deps --chown=$USER:$GROUP /app/.venv /app/.venv
+
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONPATH="/app/src" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    HOST=0.0.0.0 \
+    PORT=3000 \
+    WORKERS=1 \
+    LOGGING__LEVEL=INFO \
+    LOGGING__FORMAT=PLAIN \
+    COFFEE_API__HOST=https://api.sampleapis.com/coffee/ \
+    APP_VERSION=$VERSION \
+    GIT_COMMIT_SHA=$GIT_COMMIT_SHA
+
+EXPOSE $PORT
+
+HEALTHCHECK --timeout=1s \
+    CMD curl -f "http://localhost:${PORT}/health/" | grep '"heartbeat":"HEALTHY"' || exit 1
+
+ENTRYPOINT ["/sbin/tini", "--"]
+
+CMD ["python", "src/python_service_template/app.py"]
