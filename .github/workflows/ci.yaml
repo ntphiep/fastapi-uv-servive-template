@@ -31,18 +31,23 @@ on:
 
 jobs:
   Code-Tests:
-    name: Run tests
+    name: Run code tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+
       - name: Set up Python
         run: uv python install
+
       - name: Install dependencies
         run: uv sync
+
       - name: Run pre-commit hooks
         run: uv run pre-commit run --all-files
+        
       - name: Run pytest
         run: uv run pytest
